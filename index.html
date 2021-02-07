@@ -9,6 +9,17 @@
     <body>
 
         <form id= "myForm" method="GET">
+            <!-- Para unificar los elementos del formulario lo hacemos por medio de la clase -->
+            <div>
+                <label>Nombre: </label>
+                <input class="jsValidator" type="text" name="name">
+            </div>
+            <div>
+                <label>Email: </label>
+                <input class="jsValidator" type="email" name="email">
+            </div>
+
+            <button type="submit">Enviar</button>
 
         </form>
         
@@ -17,7 +28,8 @@
 
         <script>
             const myFormValidator = new JSValidator ('myForm');
-            console.log(myFormValidator.form);
+            // console.log(myFormValidator.inputs);
+            myFormValidator.validateForm();
         </script>
 
     </body>

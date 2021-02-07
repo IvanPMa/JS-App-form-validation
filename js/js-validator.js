@@ -1,5 +1,7 @@
 class JSValidator{
 
+    status = true;
+
     constructor (formId){
         this.setForm(formId);
         this.setInputs();
@@ -39,11 +41,72 @@ class JSValidator{
 
     //Escucha al evevnto submit
     validateForm(){
+        //Añadir escucha al formulario
         this.form.addEventListener('submit', (e)=>{
-            e.preventDefault();
+
+
             this.inputs.forEach(input =>{
-                console.log ('Input validado');
+    
+                this.validateInput(input);
             });
+            if(!this.status){
+
+                //Prevenir el envio del formulario
+                e.preventDefault();
+
+                console.log("Ha ocurrido un error de validación");
+            } else{
+                console.log("El forulario se ha enviado")
+            }
+
         });
     }
+
+    validateInput (input) {
+
+		let validators = input.dataset.validators;
+
+		if (validators !== undefined) {
+
+			validators = validators.split(' ');
+
+			validators.forEach( validator => {
+
+				/*
+					Si el validador es required =>  su método de validación sería: _required(input)
+					Si el validador es length =>  su método de validación sería: _length(input)
+		
+				*/
+
+				this[`_${validator}`](input);
+
+			});
+
+		}
+
+	}
+
+
+    init(){
+        this.validateForm();
+        return this;
+
+    }
+
+
+}
+
+JSValidator.prototype._required = function(input) {	
+ 
+    //Lógica de la validación
+    let errors = false;
+
+    if(errors){
+        this.status = false;   
+    }
+};
+
+JSValidator.prototype._length = function(input){
+
+
 }

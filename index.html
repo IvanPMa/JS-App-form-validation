@@ -12,11 +12,19 @@
             <!-- Para unificar los elementos del formulario lo hacemos por medio de la clase -->
             <div>
                 <label>Nombre: </label>
-                <input class="jsValidator" type="text" name="name">
+                <input 
+                    class="jsValidator"
+                    type="text" 
+                    name="name"
+                    data-validators="required length">
             </div>
             <div>
                 <label>Email: </label>
-                <input class="jsValidator" type="email" name="email">
+                <input 
+                    class="jsValidator" 
+                    type="email" 
+                    name="email"
+                    data-validators="required length">
             </div>
 
             <button type="submit">Enviar</button>
@@ -27,9 +35,8 @@
         <script src="js/js-validator.js"></script>
 
         <script>
-            const myFormValidator = new JSValidator ('myForm');
+            const myFormValidator = new JSValidator ('myForm').init();
             // console.log(myFormValidator.inputs);
-            myFormValidator.validateForm();
         </script>
 
     </body>

@@ -8,7 +8,7 @@
 
     <body>
 
-        <form id= "myForm" method="GET">
+        <form action="/endpoint.php" id= "myForm" method="POST">
             <!-- Para unificar los elementos del formulario lo hacemos por medio de la clase -->
             <div>
                 <label>Nombre: </label>
@@ -35,7 +35,7 @@
         <script src="js/js-validator.js"></script>
 
         <script>
-            const myFormValidator = new JSValidator ('myForm').init();
+            const myFormValidator = new JSValidator ('myForm').init().setAjax();
             // console.log(myFormValidator.inputs);
         </script>
 

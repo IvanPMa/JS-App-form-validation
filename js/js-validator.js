@@ -4,6 +4,13 @@ class JSValidator{
 
     errors = [];
 
+    via = 'http';
+
+    msg ={
+        required: `Este campo es requerido`,
+
+    }
+
     constructor (formId){
         this.setForm(formId);
         this.setInputs();
@@ -21,6 +28,15 @@ class JSValidator{
         this.inputs = document.querySelectorAll(`#${this.form.id} .jsValidator`);
     }
 
+    setAjax(){
+        this.via = 'ajax';
+        return this;
+    }
+
+    setHttp(){
+        this.via = 'http';
+        return this;
+    }
     //Analizar cada input, procesar inputs del formulario, loop ápara recorrer inputs
     parseInputs(){
 
@@ -61,9 +77,16 @@ class JSValidator{
 
                 console.log("ERROR: Ha ocurrido un error de validación");
             } else{
-                //Fines de prueba
-                e.preventDefault();
-                console.log("ÉXITO: El formulario se ha enviado")
+                //Evaluar si se debe enviar por ajax o http
+                if(this.via == 'ajax'){
+                    e.preventDefault();
+                    this.submitHandler();
+                } else{
+                    // Solo para fines demostrativos
+                    e.preventDefault();
+
+                    console.log('Se ha enviado con el navegador');
+                }
             }
 
         });
@@ -143,6 +166,21 @@ class JSValidator{
             span.innerHTML = "";
         });
     }
+    submitHandler(){
+
+        let data = new FormData(this.form);
+        fetch(this.form.action, {
+            method: this.form.method,
+            body: data
+        })
+        .then(response => response.json())
+        .then( data =>{
+            console.log(data);
+        })
+        .catch(error =>{
+            console.log(error);
+        });
+    }
 
     init(){
         this.validateForm();
@@ -157,12 +195,10 @@ class JSValidator{
 
 //Cambiar el valor del status a false, mostrar el error
 JSValidator.prototype._required = function(input) {	
-    
-    let value =  input.value;
-    let msg = 'Este campo es requerido';
 
-    if(value.trim() == "" || value.length < 1){
-        this.setError(input, msg);
+
+    if(input.value.trim() == "" || input.value.length < 1){
+        this.setError(input, this.msg.required);
     }
 };
 

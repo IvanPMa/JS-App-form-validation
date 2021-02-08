@@ -2,6 +2,8 @@ class JSValidator{
 
     status = true;
 
+    errors = [];
+
     constructor (formId){
         this.setForm(formId);
         this.setInputs();
@@ -44,9 +46,12 @@ class JSValidator{
         //Añadir escucha al formulario
         this.form.addEventListener('submit', (e)=>{
 
+            //Reiniciar los errores y cambiar status a true
+            this.resetValidation();
 
+            //Recorrer cada input
             this.inputs.forEach(input =>{
-    
+                //Validar cada input
                 this.validateInput(input);
             });
             if(!this.status){
@@ -54,11 +59,22 @@ class JSValidator{
                 //Prevenir el envio del formulario
                 e.preventDefault();
 
-                console.log("Ha ocurrido un error de validación");
+                console.log("ERROR: Ha ocurrido un error de validación");
             } else{
-                console.log("El forulario se ha enviado")
+                //Fines de prueba
+                e.preventDefault();
+                console.log("ÉXITO: El formulario se ha enviado")
             }
 
+        });
+    }
+
+    validateInputs(){
+        this.inputs.forEach( input =>{
+            input.addEventListener('input', (e) =>{
+                this.resetValidation();
+                this.validateInput(input);
+            });
         });
     }
 
@@ -86,9 +102,51 @@ class JSValidator{
 
 	}
 
+    setError(input, msg){
+        //Cambiando el valor de status
+        this.status = false;
+        this.setStackError(input, msg);
+        this.setErrorMessage(input, msg);
+         
+    }
+
+    setStackError (input, msg){
+         //Añadir el error a nuestro stack de errores
+         this.errors.push({input: input, msg : msg});
+    }
+
+    setErrorMessage(input, msg){
+        //Adjuntando el error
+          //Captura el elemento que esta despues del input , en este caso el span
+          let span = input.nextElementSibling;
+  
+          // += para que se concatene y no se sobreescriba
+          span.innerHTML += (msg + '<br />');
+    }
+
+    resetValidation(){
+        this.status = true;  
+        this.resetStackError();
+        this.resetErrorMessages();
+    }
+
+    resetStackError(){
+        //Pila de errores
+        this.errors = [];
+    }
+
+    resetErrorMessages (){
+        //Quitar mensajes de error
+        let spans = document.querySelectorAll(`#${this.form.id} .error-msg`);
+
+        spans.forEach( span => {
+            span.innerHTML = "";
+        });
+    }
 
     init(){
         this.validateForm();
+        this.validateInputs();
         return this;
 
     }
@@ -96,13 +154,15 @@ class JSValidator{
 
 }
 
-JSValidator.prototype._required = function(input) {	
- 
-    //Lógica de la validación
-    let errors = false;
 
-    if(errors){
-        this.status = false;   
+//Cambiar el valor del status a false, mostrar el error
+JSValidator.prototype._required = function(input) {	
+    
+    let value =  input.value;
+    let msg = 'Este campo es requerido';
+
+    if(value.trim() == "" || value.length < 1){
+        this.setError(input, msg);
     }
 };
 

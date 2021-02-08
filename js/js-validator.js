@@ -6,8 +6,15 @@ class JSValidator{
 
     via = 'http';
 
+    validators = {
+        minLength: 3,
+        maxLength: 255,
+    }
+
     msg ={
-        required: `Este campo es requerido`,
+        required: `Este campo es requerido.`,
+        minLength: `Longitud no válida. Minimo __minLength__ carcateres`,
+        maxLength: `Longitud no válida. Máximo __maxLength__ carcateres`,
 
     }
 
@@ -204,5 +211,24 @@ JSValidator.prototype._required = function(input) {
 
 JSValidator.prototype._length = function(input){
 
+    let value = input.value;
+    let inputLength = value.length;
 
+
+    let minLength = (input.dataset.validators_minlength !== undefined) ? Number(input.dataset.validators_minlength)
+    : this.validators.minLength;
+
+    let maxLength = (input.dataset.validators_maxlength !== undefined) ? Number(input.dataset.validators_maxlength)
+    : this.validators.maxLength;
+
+    let msg;
+    if ( inputLength < minLength){
+        msg = this.msg.minLength.replace('__minLength__', minLength);
+        this.setError(input, msg);
+    }
+
+    if ( inputLength > maxLength){
+        msg = this.msg.maxLength.replace('__maxLength__', maxLength);
+        this.setError(input, msg);
+    }
 }

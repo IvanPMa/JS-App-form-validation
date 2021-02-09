@@ -17,7 +17,7 @@ class JSValidator{
         maxLength: `Longitud no válida. Máximo __maxLength__ carcateres`,
         email: `El campo de email no es válido`,
         integer: `Por favor coloca un número entero`,
-
+        alphanumeric: `Solo se permiten letras y numeros sin espacios`,
     }
 
     constructor (formId){
@@ -255,4 +255,21 @@ JSValidator.prototype._integer = function (input){
     if (!pattern.test(value) && value.trim() != ""){
         this.setError(input, msg);
     }
+}
+JSValidator.prototype._alphanumeric = function (input){
+    
+    //Recuperamos el valor del input
+    value = input.value;
+
+    //Definimos el error del mensaje
+    let msg = this.msg.alphanumeric;
+
+    //Expresion regular
+    let pattern = new RegExp(/^[a-zA-Z0-9]+$/);
+
+
+    if (!pattern.test(value) && value.trim() != ""){
+        this.setError (input, msg);
+    }
+
 }

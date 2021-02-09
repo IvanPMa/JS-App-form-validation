@@ -3,63 +3,70 @@
     <head>
         <title>JS Validator</title>
         <meta charset="UTF-8">
+        <link rel="stylesheet" type="text/css" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
         <link rel="stylesheet" type="text/css" href="css/style.css">
     </head>
 
     <body>
+        <div class="container pt-5">
+            <form action="/endpoint.php" id= "myForm" method="POST"enctype="multipart/form-data">
+                <!-- Para unificar los elementos del formulario lo hacemos por medio de la clase -->
+                <div class="form-group">
+                    <label>Nombre:</label>
+                    <input 
+                        class="form-control jsValidator" 
+                        type="text" 
+                        name="name" 
+                        data-validators="required length" 
+                        data-validators_minLength="3"
+                        data-validators_maxLength="255"
+                        data-validators_length_msg="El texto debe ser de 3 a 255 caracteres">
+    
+                </div>
+                <div class="form-group">
+                    <label>UserName: </label>
+                    <input 
+                        class="form-control jsValidator"
+                        type="text" 
+                        name="name"
+                        data-validators="required length alphanumeric"
+                        data-validators_minlength = "5"
+                        data-validators_maxlength = "300">
+                </div>
+                <div class="form-group">
+                    <label>Email:</label>
+                    <input 
+                        class="form-control jsValidator" 
+                        type="text" 
+                        name="email" 
+                        data-validators="email">
+     
+                </div>
+                <div class="form-group">
+                    <label>URL:</label>
+                    <input 
+                        class="form-control jsValidator" 
+                        type="text" 
+                        name="url" 
+                        data-validators="url">
+     
+                </div>
 
-        <form action="/endpoint.php" id= "myForm" method="POST">
-            <!-- Para unificar los elementos del formulario lo hacemos por medio de la clase -->
-            <div>
-                <label>Nombre: </label>
-                <input 
-                    class="jsValidator"
-                    type="text" 
-                    name="name"
-                    data-validators="required length"
-                    data-validators_minlength = "5"
-                    data-validators_maxlength = "300">
-            </div>
-            <div>
-                <label>UserName: </label>
-                <input 
-                    class="jsValidator"
-                    type="text" 
-                    name="name"
-                    data-validators="required length alphanumeric"
-                    data-validators_minlength = "5"
-                    data-validators_maxlength = "300">
-            </div>
-            <div>
-                <label>Email: </label>
-                <input 
-                    class="jsValidator" 
-                    type="text" 
-                    name="email"
-                    data-validators="required email">
-            </div>
-            <div>
-                <label>URL:  </label>
-                <input 
-                    class="jsValidator" 
-                    type="text" 
-                    name="url"
-                    data-validators="required url">
-            </div>
+                <div class="form-group">
+                    <label>Edad:</label>
+                    <input 
+                        class="form-control jsValidator" 
+                        type="text" 
+                        name="age"
+                        data-validators="integer">
+                </div>
 
-            <div>
-                <label>Edad :</label>
-                <input 
-                    class = "jsValidator"
-                    type="text" 
-                    name="age"
-                    data-validators="integer">
-            </div>
+                <div class="form-group">
+                    <input class="btn btn-primary btn-lg active" type="submit" name="submit" value="Enviar">
+                </div>
 
-            <button type="submit">Enviar</button>
-
-        </form>
-        
+            </form>
+        </div>
 
         <script src="js/js-validator.js"></script>
 

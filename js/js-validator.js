@@ -276,6 +276,7 @@ JSValidator.prototype._alphanumeric = function (input){
 }
 
 JSValidator.prototype._url = function(input) {
+    console.log("end");
 	
 	// En primer lugar vamos a recuperar el valor del input
 	let value = input.value;

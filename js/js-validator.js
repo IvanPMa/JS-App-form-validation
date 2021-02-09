@@ -15,6 +15,7 @@ class JSValidator{
         required: `Este campo es requerido.`,
         minLength: `Longitud no válida. Minimo __minLength__ carcateres`,
         maxLength: `Longitud no válida. Máximo __maxLength__ carcateres`,
+        email: `El campo de email no es válido`,
 
     }
 
@@ -229,6 +230,18 @@ JSValidator.prototype._length = function(input){
 
     if ( inputLength > maxLength){
         msg = this.msg.maxLength.replace('__maxLength__', maxLength);
+        this.setError(input, msg);
+    }
+}
+
+JSValidator.prototype._email = function (input){
+    let value = input.value;
+    let msg = this.msg.email;
+
+    let pattern = new RegExp(/^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/i);
+
+
+    if (!pattern.test (value) && value.trim() != ""){
         this.setError(input, msg);
     }
 }
